@@ -1,5 +1,23 @@
 language: node_js
 node_js: node
 before_install:
-  - "export DISPLAY=:99.0"
-  - "sh -e /etc/init.d/xvfb start"
+  - 'export DISPLAY=:99.0'
+  - sh -e /etc/init.d/xvfb start
+before_deploy:
+  - git config --global user.email "me@example.com"
+  - git config --global user.name "PMO deploy bot"
+  - node build
+  - git add dist/ --force
+  - git commit -m "Updating build."
+  - node_modules/.bin/firebase deploy --token "$FIREBASE_TOKEN"
+deploy:
+  skip_cleanup: true
+  provider: heroku
+  app: hidden-brook-64215
+  api_key:
+    - secure: >-
+        qTi82og9XeGcLU0Q7r/yeYx/8SpEmXKle8p8Wr6/F58XojZ+op90LJ0FmiGNSHxyJq02f1d6WDf1F1+OPOY52SWVBERB5BSJCDxhMXyinUdpSoc3mvss85AHMdyEDiF+RpdDiJ2TuriX0BwSsD8FhNTxLs629qVQaIqdjJhOH8mfO4BxZTHgI8LnLaJhsGjfeL16YUJxqTAN7kY8Um52ouCiHpCfsdo+kNrbgYvBWi1ku13G1xPw3RcLgxmaEBv6D9yBrtGHR8fog5Z4jVSUQYG0gR0GFeXkhnUH46y4nqzOmcSu4RdioalHknVJmJeWuoCyOXnjL8QwfXINglAhkEwmwZ2uqCmbEp9tLPe5O62DttQUA9X7gTisN7zcZFmjhpszdlIUKAMpjVu2N4wqCxfibFXUACyd+TQw6vAzqoq5pDURXhzHjeItKz+qxDMJFBURjEPqONLIUI750QRegll0OmYkpUztaMhvj3JZkUg/8dyR4sqG1sYedHOEpXLlqiAM8FE16n4+SUg3AniuagKJsetjo1VjsQH2lY/rqc9USyiz0ncDDx1Caed5lHlpINLdjQC2j78+M4vGA/R3CmHOV09KqF7u1HKuINHqnQ4xcOjP+BrYUDgsDfZMurH5pW1cBrc/2rKddW9lh8xnqmBr6/nzTmk9tHMHmOtcB9w=
+env:
+  global:
+    - secure: >-
+        Ih6+qnMurwwQIUwLD8gFmIHiqO35JaELUjV9DJFPmy/DDBwxaN0KbRIwXUkntoGOotkNKJ1iiDIdCwDOwINv8FgL3zynEZYMAaNlv7OPxz3eXU5q7EdVOHl4S7NfdtDNxGMVdi8MsiT88tUgpcsDRisNB5HApOCuVDTDCwubNp0qUKR26kLT4UUDFUX2Q65OAWW+ElC2qdxJMHo9bhsyZLxDcmoWOhe/8A2Om+D1sJHDabqyhMbSte9bXHWHjVWxmjJQcX2Wk2FjOFfrJ793jEzsg02VuuXCSAIzALImo59QNiuNuzJ8iSs+rGzAOznKiZPMWhLeC621kuLNE5Xo1ft/LtPQ0/onwG26DR448BDwr/XKHaSOpXgPIrS6Y8ix6yHk526JFZlyfGJe+jufUi1FYLrYga0W9x/w1O3j4Zcm2DABHW4zn1AtvU02Hsueg9jwt05Xqna2WfdxAj+ZXIbP8Gp/YngrlcX/vPMGNU1l5JJCCwux53Wcu/lYAQRtRVnqOlpFQyXmdmufDd/HTvO4/GD54lykwd2pxjcyKpQZh8MhIacpKClZLqb6kGcq+g/2z3gL3YHKLtgoc0Su4js5fkmVdAfQ1UuFWF7cJHWJ1tPf5gL1hpt0JMe6ASbU3rBHkGX8xZHJzcUzId3nL5m7KdLKA+Mf+QRyWRcQnpc=
